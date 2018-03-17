@@ -1,6 +1,7 @@
 import os
 import getpass
-#import sqlite3
+import sqlite3
+
 
 db = sqlite3.connect("cmac.db").cursor()
 
