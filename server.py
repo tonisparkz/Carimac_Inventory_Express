@@ -42,10 +42,13 @@ class Database:
     def searchForItem(self, item):
         results = []
         for i in self.tables["items"]:
-            if item in i:
+            if item in i.name:
                 results.append(i)
         return results
-    
+        
+    def addInvoice(self, invoice):
+        self.tables["invoices"].append(invoice)
+
 class Item:
     def __init__(self, id, name, quantity):
         self.id = id
