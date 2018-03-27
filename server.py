@@ -1,7 +1,7 @@
 import os
 import getpass
 import sqlite3
-from flask import Flask
+from flask import Flask, request
 
 
 #VARIABLES
@@ -11,7 +11,7 @@ db = sqlite3.connect("cmac.db").cursor()
 
 
 
-#FUNCTIONSs
+#FUNCTIONS
 def login(username, password):
     return 1
 
@@ -24,7 +24,6 @@ def search(string, sorting, sortBy):
     return results
 
 #CLASSES
-
 class Item:
     def __init__(self, id, name, price, stock):
         seld.id = id
@@ -37,12 +36,11 @@ class Item:
 
 
 #SERVER
-
 app = Flask(__name__)
-
 
 @app.route('/')
 def index():
+    print (request.__dict__)
     return "This is the home page"
 
 @app.route('/login')
