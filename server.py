@@ -1,7 +1,7 @@
 import os
 import getpass
 import sqlite3
-from flask import Flask, request
+from flask import Flask, request, jsonify
 
 
 #VARIABLES
@@ -38,24 +38,33 @@ class Item:
 #SERVER
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods=['GET','POST'])
 def index():
-    print (request.__dict__)
+    print (request.form)  
     return "This is the home page"
 
-@app.route('/login')
+@app.route('/login', methods=['GET','POST'])
 def login():
+    #URL
+    #http://127.0.0.1:4000/?login=username&password=password
+    #FOR GET REQUESTS
+    print (''.join(dict(request.args)['r']))  
+    #FOR POST REQUESTS
+    print (''.join(dict(request.form)['r']))    
     return "This is the login page"
     
-@app.route('/register')
+    
+@app.route('/register', methods=['GET','POST'])
 def register():
     return "This is the register page"
     
-@app.route('/search')
+    
+@app.route('/search', methods=['GET','POST'])
 def search():
     return "This is the search page"  
     
-@app.route('/invoice')
+
+@app.route('/invoice', methods=['GET','POST'])
 def invoice():
     return "This is the invoice page"
     
