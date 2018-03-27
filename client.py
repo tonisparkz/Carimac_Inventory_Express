@@ -1,7 +1,7 @@
 import os
 import getpass
 import time
-
+import requests
 
 ########
 #CLASSES
