@@ -7,7 +7,7 @@ from flask import Flask, request, jsonify
 
 #VARIABLES
 #db = sqlite3.connect("cmac.db").cursor()
-
+isLoggedIn = False
 
 
 
@@ -16,20 +16,16 @@ from flask import Flask, request, jsonify
 def login(idnum, password):
     global db
     for i in db.tables["accounts"]:
-        if dict(i)["id"] == idnum and dict(i)["password"] == password:
+        if i.id == idnum and i.password == password:
             return 1
     return 0
 
-def search(query, sorting):
-    global db
-    results = []
-    for i in db.tables["items"]
-        if query in dict(i)["name"]:
-            results.push(dict(i)["name"])
+def search(string, sorting, sortBy):
     if sorting == 123:
-        results.sort()
+        print("")
     else:
-        results.sort(reverse=True)
+        print("")
+    results = []
     return results
 
 
@@ -39,7 +35,7 @@ def search(query, sorting):
         
 class Database:
     def __init__(self):
-        self.tables = {"accounts":[{"id":"admin", "password":"password"}], "invoices":[], "items":[]}
+        self.tables = {"accounts":[], "invoices":[], "items":[]}
           
     def addItem(self, item):
         self.tables["items"].append(item)
@@ -91,20 +87,19 @@ def index():
 
 @app.route('/login', methods=['GET','POST'])
 def loginuserin():
-    global isLoggedIn
-    print(request.form)
-    if(login(request.form['id'], request.form['password'])):
+    credentials = request.form
+    if(login(credentials['id'][0], credentials['password'][0])):
         isLoggedIn = True
         return '1'
     else:
-        return '0'
+        return 0
     #URL
     #http://127.0.0.1:4000/?login=username&password=password
     #FOR GET REQUESTS
-    #~ print (dict(request.args))
-    #~ #FOR POST REQUESTS
-    #~ print (dict(request.form))     
-    #~ return "This is the login page"
+    print (dict(request.args))
+    #FOR POST REQUESTS
+    print (dict(request.form))     
+    return "This is the login page"
     
     
 @app.route('/register', methods=['GET','POST'])
@@ -114,7 +109,6 @@ def register():
     
 @app.route('/search', methods=['GET','POST'])
 def search():
-    
     return "This is the search page"  
     
 

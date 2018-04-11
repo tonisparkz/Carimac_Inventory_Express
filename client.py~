@@ -77,25 +77,16 @@ database = [
 ]
 '''
 
-isAdmin = False
 
 def login(id, password):
     r = requests.post(url+"login", data={'id': id, 'password': password})
-    if(r.text == "1"):
-        if id == "admin":
-            isAdmin = True
+    print(r.text)
+    if(int(r.text) == 1):
         return 1
     return 0
 
-def logout():
-    global running
-    isAdmin = False
-    running = False
-    os.system('reset || cls')
-    
 
-def search(query, sorting, sortBy):
-    r = requests.get(url+"search?query="+query)
+def search(string, sorting, sortBy):
     if sorting == 123:
         print("")
     else:
@@ -106,17 +97,7 @@ def search(query, sorting, sortBy):
 
 def mainMenu():
     print("Select an option shown below: ")
-    print(" 1] Search Item")
-    print(" 2] Add Item")
-    print(" 3] Add Account")  
-    print(" 4] Remove Item") 
-    print(" 5] Remove Account") 
-    print(" 6] View Orders") 
-    print(" 7] Log Off\n") 
-
-def adminMenu():
-    print("Select an option shown below: ")
-    print(" 1] Search Item")
+    print(" 1] Search Query")
     print(" 2] Place Order")
     print(" 3] View Notifications")  
     print(" 4] Log Off\n") 
@@ -144,7 +125,9 @@ def connect(ip, port):
 #VARIABLES
 
 order = []
-choice = 0
+chances = 3
+running = True;
+
 
 if __name__ == "__main__":
     while True:
@@ -160,51 +143,35 @@ if __name__ == "__main__":
         print("\nCONNECTION ESTABLISHED\n")
         username =  input("Enter Username: ")
         password = getpass.getpass("Enter Password: ")
+        print(login(username, password))
         if login(username, password):
             #LOGIN SUCCESSFUL
-            running = True
             while(running):
                 os.system('reset || cls')
                 print("Logged in as: "+username+"\n")
-                if(isAdmin):
-                    adminMenu()
-                    while(True):
-                        try:                
-                            choice = int(input("Choice: "))
-                            if choice < 1 or choice > 4:
-                                raise Exception()
-                            break
-                        except:
-                            print("\nInvalid Selection\n")
-                            
-                        if(choice == 7):
-                            logout()
-                        
-                        if(choice == 1):
-                            query = input("Enter the search query :")
-                else:
-                    mainMenu()
-                    while True:
-                        try:                
-                            choice = int(input("Choice: "))
-                            if choice < 1 or choice > 4:
-                                raise Exception()
-                            break
-                        except:
-                            print("\nInvalid Selection\n")
-                            mainMenu()
-                    if choice == 4:
-                        #LOG OUT
-                        logout()       
-                        break      
-                    if choice == 1:
-                        query = raw_input("Enter Search Query: ")
-                        print (search)
-                    if choice == 2:
-                        #COMPLETE OPTION 2
-                        print()
-                    if choice == 3:
-                        #COMPLETE OPTION 2
-                        print()
+                mainMenu()
+                while True:
+                    try:                
+                        choice = int(input("Choice: "))
+                        if choice < 1 or choice > 4:
+                            raise Exception()
+                        break
+                    except:
+                        print("\nInvalid Selection\n")
+                        mainMenu()
+                if choice == 4:
+                    #LOG OUT
+                    os.system('reset || cls')
+                    break      
+                if choice == 1:
+                    query = raw_input("Enter Search Query: ")
+                    print (search)
+                if choice == 2:
+                    #COMPLETE OPTION 2
+                    print()
+                if choice == 3:
+                    #COMPLETE OPTION 2
+                    print()
         else:
-            print("Failed to login\n")
+            chances -= 1
+            print("Failed to login")
