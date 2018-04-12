@@ -11,21 +11,29 @@ class Item:
     def __init__(self, id, name, price):
         self.id = id
         self.name = name
-        self.price = price
-
-class Invoice:
-    def __init__(self, id, InventoryRecordId, quantity):
-        self.id = id
-        self.item = InventoryRecordId
         self.quantity = quantity
+      
+    def editItemName(self, itemName):
+        self.name = itemName
+
+    def editItemQuantity(self, quantity):
+        self.quantity = quantity
+      
+class Invoice:
+    def __init__(self, staffId, InventoryRecordId, Quantity, Items, date):
+        self.id = staffId
+        self.item = InventoryRecordId #What's the purpose of InventoryRecordId? Is it the invoice number?
+        self.Quantity = []
+        self.Items = []
+        self.InvoiceDate = date
         
 class Account:
     def __init__(self, id, employeeId, login, pwd, slt, isAdm):
-        self.id = id
+        self.id = id #is there a difference between id & employeeId?
         self.employeeId = employeeId
-        self.login = login
+        self.login = login #if this refers to the act of a user logging in to their account, shouldn't this be a function & not an attribute?
         self.pwd = pwd
-        self.slt = slt
+        self.slt = slt #what does this represent?
         self.isAdm = isAdm    
         
 class Employee:
